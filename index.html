@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Inventário - TI</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+    </style>
+</head>
+<body>
+
+    <div class="container my-5">
+        <header class="mb-4">
+            <h1 class="fw-bold">📊 Painel de Inventário de Hardware</h1>
+            <p class="text-muted">Gestão centralizada de computadores, setores e hardwares.</p>
+        </header>
+
+        <!-- Barra de Pesquisa -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <input type="text" id="searchInput" class="form-control" placeholder="🔍 Pesquisar por computador, usuário ou setor..." onkeyup="filtrarTabela()">
+            </div>
+        </div>
+
+        <!-- Tabela de Dados -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle" id="tabelaInventario">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Data</th>
+                                <th>Empresa</th>
+                                <th>Setor</th>
+                                <th>Computador</th>
+                                <th>Usuário</th>
+                                <th>Processador</th>
+                                <th>RAM</th>
+                                <th>Tamanho SSD</th>
+                                <th>Disco Livre</th>
+                                <th>AnyDesk</th>
+                                <th>Saúde SSD</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaCorpo">
+                            <tr>
+                                <td colspan="11" class="text-center py-4">Carregando dados da planilha...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script para carregar o CSV do Google Sheets e popular a tabela -->
+    <script>
+        // Substitua pelo link CSV publicado da sua planilha do Google Sheets
+        const URL_CSV = "https://script.google.com/macros/s/AKfycbwHzxH392RRSn27s6WBhoGndDG6GTRJ5__NlA9XC4pJTVtpe1anwDf1JTtY-3eZfD6F/exec";
+
+        async function carregarDados() {
+            try {
+                const resposta = await fetch(URL_CSV);
+                const dadosTexto = await resposta.text();
+                
+                const linhas = dadosTexto.split("\n");
+                const tbody = document.getElementById("tabelaCorpo");
+                tbody.innerHTML = "";
+
+                for (let i = 1; i < linhas.length; i++) {
+                    if (!linhas[i].trim()) continue;
+                    
+                    const colunas = linhas[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    
+                    if (colunas.length >= 15) {
+                        let tr = document.createElement("tr");
+                        tr.innerHTML = `
+                            <td>${colunas[0].replace(/"/g, '')}</td>
+                            <td>${colunas[1].replace(/"/g, '')}</td>
+                            <td><span class="badge bg-secondary">${colunas[2].replace(/"/g, '')}</span></td>
+                            <td class="fw-bold">${colunas[3].replace(/"/g, '')}</td>
+                            <td>${colunas[4].replace(/"/g, '')}</td>
+                            <td><small>${colunas[5].replace(/"/g, '')}</small></td>
+                            <td>${colunas[6].replace(/"/g, '')} GB</td>
+                            <td class="fw-semibold text-primary">${colunas[13].replace(/"/g, '')}</td>
+                            <td>${colunas[9].replace(/"/g, '')} GB</td>
+                            <td><code>${colunas[12].replace(/"/g, '')}</code></td>
+                            <td><small>${colunas[14].replace(/"/g, '').substring(0, 40)}...</small></td>
+                        `;
+                        tbody.appendChild(tr);
+                    }
+                }
+            } catch (erro) {
+                console.error("Erro ao carregar dados:", erro);
+                document.getElementById("tabelaCorpo").innerHTML = `<tr><td colspan="11" class="text-center text-danger">Erro ao carregar os dados da planilha. Verifique o link CSV.</td></tr>`;
+            }
+        }
+
+        function filtrarTabela() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
+            let trs = document.getElementById("tabelaCorpo").getElementsByTagName("tr");
+
+            for (let tr of trs) {
+                let texto = tr.textContent.toLowerCase();
+                tr.style.display = texto.includes(input) ? "" : "none";
+            }
+        }
+
+        carregarDados();
+    </script>
+</body>
+</html>
