@@ -1,7 +1,5 @@
-param(
-    [string]$Empresa = "Matriz",
-    [string]$Setor = "TI"
-)
+$Empresa = if($env:CLI_EMPRESA){ $env:CLI_EMPRESA } else { "Matriz" }
+$Setor   = if($env:CLI_SETOR){ $env:CLI_SETOR } else { "TI" }
 
 $WebAppUrl = "https://script.google.com/macros/s/AKfycbz5rMscgiibL3OjlVEm71nxxnLQ65F_YyuQvlY3bJjG7tSgJK5-YJRbYDBTzvjwwEdjZA/exec"
 
