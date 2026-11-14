@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventário de TI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Inventário de Hardware</h1>
+    <div class="controls">
+      <select id="filtroEmpresa">
+        <option value="">Todas as Empresas / Clientes</option>
+      </select>
+      <input type="text" id="buscaTexto" placeholder="Buscar hostname, serial, usuário...">
+      <button id="btnAtualizar">Atualizar Lista</button>
+    </div>
+  </header>
+
+  <main id="gridEquipamentos" class="grid"></main>
+
+  <!-- Modal de Edição -->
+  <div id="modalEditar" class="modal hidden">
+    <div class="modal-content">
+      <h2>Editar Equipamento (<span id="editSerialTitle"></span>)</h2>
+      <form id="formEditar">
+        <input type="hidden" id="editSerial">
+        <label>Empresa / Cliente <input type="text" id="editEmpresa" required></label>
+        <label>Setor <input type="text" id="editSetor"></label>
+        <label>Usuário Atual <input type="text" id="editUsuario"></label>
+        <label>AnyDesk <input type="text" id="editAnyDesk"></label>
+        <label>Observações (ex: upgrade feito) <textarea id="editObs" rows="3"></textarea></label>
+        <div class="modal-actions">
+          <button type="button" id="btnFecharModal" class="btn-sec">Cancelar</button>
+          <button type="submit" class="btn-pri">Salvar na Planilha</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

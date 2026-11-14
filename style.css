@@ -1,0 +1,39 @@
+:root {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --accent: #3b82f6;
+  --whatsapp: #22c55e;
+  --border: #334155;
+}
+
+* { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+body { background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+
+header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+h1 { margin: 0; font-size: 1.4rem; }
+
+.controls { display: flex; flex-wrap: wrap; gap: 10px; }
+select, input, textarea { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 8px 12px; border-radius: 6px; }
+button { cursor: pointer; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 600; transition: 0.2s; }
+button:hover { opacity: 0.9; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; }
+.card-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px; }
+.badge { background: var(--accent); font-size: 0.75rem; padding: 3px 8px; border-radius: 4px; }
+.card p { margin: 4px 0; font-size: 0.9rem; color: var(--muted); }
+.card p strong { color: var(--text); }
+
+.card-actions { display: flex; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+.btn-wpp { background: var(--whatsapp); color: #052e16; flex: 1; }
+.btn-edit { background: var(--border); color: var(--text); }
+
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; padding: 16px; }
+.modal.hidden { display: none; }
+.modal-content { background: var(--card); padding: 20px; border-radius: 10px; width: 100%; max-width: 420px; border: 1px solid var(--border); }
+.modal-content label { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; font-size: 0.85rem; color: var(--muted); }
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
+.btn-pri { background: var(--accent); color: white; }
+.btn-sec { background: var(--border); color: white; }
